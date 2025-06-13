@@ -5,12 +5,14 @@ function PracticeForm() {
 
   function handleGoalChange(e) {
     setGoal(e.target.value);
-    console.log(e.target.value);
+    console.log(e.target.value); //for testing
   }
 
   function handleSubmit(e) {
+    //user hits submit, run this function
     e.preventDefault(); //prevents page from reloading upon form submission
-    console.log('Goal Submitted:', goal);
+    console.log('Goal Submitted:', goal); //for testing
+    setGoal(''); //clear input field after submission
   }
 
   return (
@@ -24,7 +26,9 @@ function PracticeForm() {
         onChange={handleGoalChange}
         placeholder="e.g., Practice scales for 20 minutes"
       />
-      <button type="submit">Submit</button>
+      <button type="submit" disabled={goal === ''}>
+        Submit
+      </button>
     </form>
   );
 }
