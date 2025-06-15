@@ -1,21 +1,36 @@
 // The id for PracticePlan is tbl3FisNmoYOiIucq.
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import App from './App';
 
 function PracticeForm() {
-  const [goal, setGoal] = useState('');
+  //   async function handleSubmit(e) {
+  //     e.preventDefault();
+  //     const payload = {
+  //       records: [
+  //         {
+  //         fields: {
+  //         goal: goal,
+  //         isCompleted: false,
+  //         },
+  //       },
+  //       ],
+  //     };
 
-  function handleGoalChange(e) {
-    setGoal(e.target.value);
-    console.log(e.target.value); //for testing
-  }
+  //     const options = {
+  //       method: 'GET',
+  //       headers: {
+  //         'Authorization: token',
+  //       },
+  //       body: JSON.stringify(payload),
+  //     };
 
-  function handleSubmit(e) {
-    //user hits submit, run this function
-    e.preventDefault(); //prevents page from reloading upon form submission
-    console.log('Goal Submitted:', goal); //for testing
-    setGoal(''); //clear input field after submission
-  }
+  //     try {
+  //       })
+  //     }
+  //     // console.log('Goal Submitted:', goal);
+  //     setGoal('');
+  //   }
 
   return (
     <form onSubmit={handleSubmit}>
