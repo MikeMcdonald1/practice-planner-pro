@@ -1,3 +1,5 @@
+// The id for PracticePlan is tbl3FisNmoYOiIucq.
+
 import React, { useState } from 'react';
 
 function PracticeForm() {
@@ -26,6 +28,7 @@ function PracticeForm() {
         onChange={handleGoalChange}
         placeholder="e.g., Practice scales for 20 minutes"
       />
+      <br />
       <button type="submit" disabled={goal === ''}>
         Submit
       </button>
