@@ -67,7 +67,6 @@ function PracticeForm() {
       console.log(savedSnippet);
       setAllSnippets((prevSnippets) => [...prevSnippets, savedSnippet]); //prevSnippets is temporary label for most up to date value of state
     } catch (error) {
-      console.log(error);
       setErrorMessage(error.message);
     } finally {
       setIsSaving(false);
@@ -97,18 +96,21 @@ function PracticeForm() {
       setIsLoading(true);
       setErrorMessage('');
 
+      const options = {
+        headers: {
+          Authorization: token,
+        },
+      };
+
       try {
-        const resp = await fetch(url, {
-          headers: {
-            Authorization: token,
-          },
-        });
+        const resp = await fetch(url, options);
 
         if (!resp.ok) {
           throw new Error('Failed to fetch practice snippets');
         }
 
         const data = await resp.json();
+        console.log('Fetched data:', data.records);
         setAllSnippets(
           data.records.map((record) => ({
             id: record.id,
@@ -116,6 +118,7 @@ function PracticeForm() {
           }))
         );
       } catch (error) {
+        console.log('Error fetching snippets:', error);
         setErrorMessage(error.message);
       } finally {
         setIsLoading(false);
@@ -124,6 +127,72 @@ function PracticeForm() {
 
     fetchAllSnippets();
   }, []);
+
+  // 3. Update Snippet
+  async function updateSnippet(editedSnippet) {
+    const originalSnippet = allSnippets.find(
+      (snippet) => snippet.id === editedSnippet.id
+    );
+
+    const payload = {
+      records: [
+        {
+          id: editedSnippet.id,
+          fields: {
+            goal: editedSnippet.goal,
+            isCompleted: editedSnippet.isCompleted,
+          },
+        },
+      ],
+    };
+
+    const options = {
+      method: 'PATCH',
+      headers: {
+        Authorization: token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    };
+
+    try {
+      setIsSaving(true);
+
+      const resp = await fetch(url, options);
+
+      if (!resp.ok) {
+        throw new Error('Failed to update practice snippet');
+      }
+
+      const { records } = await resp.json();
+      const updatedSnippet = {
+        id: records[0].id,
+        ...records[0].fields,
+      };
+
+      const updatedSnippets = allSnippets.map((snippet) =>
+        snippet.id === updatedSnippet.id ? updatedSnippet : snippet
+      );
+
+      //   if (snippet.id === updateSnippet.id) {
+      //     return { ...updatedSnippet };
+      //   } else {
+      //     return snippet;
+      //   }
+      // });
+
+      setAllSnippets([updatedSnippets]);
+    } catch (error) {
+      console.log(error);
+      setErrorMessage(`Error updating practice snippet. Reverting changes...`);
+      const revertedSnippets = allSnippets.map((snippet) =>
+        snippet.id === originalSnippet.id ? { ...originalSnippet } : snippet
+      );
+      setAllSnippets([...revertedSnippets]);
+    } finally {
+      setIsSaving(false);
+    }
+  }
 
   return (
     <>
@@ -138,12 +207,12 @@ function PracticeForm() {
           placeholder="e.g., Practice scales for 20 minutes"
         />
         <br />
-        <button type="submit" disabled={goal === ''}>
-          Submit
+        <button type="submit" disabled={goal === '' || isSaving}>
+          {isSaving ? 'Saving...' : 'Submit'}
         </button>
       </form>
 
-      {isLoading && <div>Loading...</div>}
+      {isLoading && <div>Practice Routine Loading...</div>}
       {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
 
       <ul>
@@ -160,8 +229,8 @@ function PracticeForm() {
 export default PracticeForm;
 
 // TASKS:
-// New Airtable Token
 // Use "Task" for new things to do keyword
 // Create select menu for practice type
 // Make all fields required
 // Add feedback to user behavior ("Please fill all fields to submit");
+// How to fetch snippet and render all together (flexbox?) one checkbox, 1 snippet, 5 states
