@@ -1,33 +1,39 @@
-// The id for PracticePlan is tbl3FisNmoYOiIucq.
-
 import React, { useState, useEffect } from 'react';
 
 function PracticeForm() {
-  const [practiceSnippet, setPracticeSnippet] = useState([]);
-  const [goal, setGoal] = useState('');
-  const [newSnippet, setNewSnippet] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [isSaving, setIsSaving] = useState(false);
+  // const [practiceType, setPracticeType] = useState(DROPDOWN MENU?);
+  // const [musicalKey, setMusicalKey] = useState(DROPDOWN MENU?);
+  // const [metronome, setMetronome] = useState(TEXT INPUT OR NUMBERS ONLY);
+  // const [timeSpent, setTimeSpent] = useState(TEXT INPUT OR NUMBERS ONLY);
+
+  const [goal, setGoal] = useState(''); // the goal field in the snippet object, a single item essentialy, 1 of 5 in larger snippet
+  const [newSnippet, setNewSnippet] = useState(''); //a snippet object requiring all 5 fields
+  const [allSnippets, setAllSnippets] = useState([]); //an array of snippet objects, all the snippets together
+
+  const [isLoading, setIsLoading] = useState(false); //for loading snippets
+  const [errorMessage, setErrorMessage] = useState(''); //for error message
+  const [isSaving, setIsSaving] = useState(false); //for updating snippets EVENTUALLY
 
   const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
   const token = `Bearer ${import.meta.env.VITE_PAT}`;
 
   function handleGoalChange(e) {
-    setGoal(e.target.value);
+    //rename handleSnippetChange?
+    setGoal(e.target.value); //maybe set newSnippet??
     console.log(e.target.value);
   }
-  //1. function for adding a goal/practice snippet
 
+  // 1. function for adding an entire practice snippet(only adds goal field currently)
   async function addSnippet(newSnippet) {
     const payload = {
       records: [
         {
           fields: {
-            // type:
+            //add here and then in the return statement? what else is needed?
+            // type: need field/type in airtable
             // musicalKey:
-            // metronome:
-            // timeSpent:
+            // metronome: number labelled with bpm(beats per minute)
+            // timeSpent: number labelled with minutes(time spent in minutes)
             goal: newSnippet.goal,
             isCompleted: newSnippet.isCompleted,
           },
@@ -54,11 +60,12 @@ function PracticeForm() {
 
       const { records } = await resp.json();
       const savedSnippet = {
+        //get the saved snippet from the POST response
         id: records[0].id,
         ...records[0].fields,
       };
       console.log(savedSnippet);
-      setPracticeSnippet([...practiceSnippet, savedSnippet]);
+      setAllSnippets((prevSnippets) => [...prevSnippets, savedSnippet]); //prevSnippets is temporary label for most up to date value of state
     } catch (error) {
       console.log(error);
       setErrorMessage(error.message);
@@ -67,15 +74,15 @@ function PracticeForm() {
     }
   }
 
-  // async function handleSubmit(e) {
-  //   e.preventDefault();
-  //   setGoal('');
-  // }
-
-  async function handleSubmit(e) {
+  async function handleAddSnippet(e) {
     e.preventDefault();
 
     const newSnippet = {
+      //same variable name declared earlier, choose new one
+      //practice type
+      //musical key
+      //metronome
+      //time spent
       goal,
       isCompleted: false,
     };
@@ -84,23 +91,77 @@ function PracticeForm() {
     setGoal('');
   }
 
+  // 2. useEffect to fetchAllSnippets when App starts(maybe transfer this to the )
+  useEffect(() => {
+    async function fetchAllSnippets() {
+      setIsLoading(true);
+      setErrorMessage('');
+
+      try {
+        const resp = await fetch(url, {
+          headers: {
+            Authorization: token,
+          },
+        });
+
+        if (!resp.ok) {
+          throw new Error('Failed to fetch practice snippets');
+        }
+
+        const data = await resp.json();
+        setAllSnippets(
+          data.records.map((record) => ({
+            id: record.id,
+            ...record.fields,
+          }))
+        );
+      } catch (error) {
+        setErrorMessage(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchAllSnippets();
+  }, []);
+
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="goal">Enter your practice goal:</label>
-      <br />
-      <input
-        type="text"
-        id="goal"
-        value={goal}
-        onChange={handleGoalChange}
-        placeholder="e.g., Practice scales for 20 minutes"
-      />
-      <br />
-      <button type="submit" disabled={goal === ''}>
-        Submit
-      </button>
-    </form>
+    <>
+      <form onSubmit={handleAddSnippet}>
+        <label htmlFor="goal">Enter your practice goal:</label>
+        <br />
+        <input
+          type="text"
+          id="goal"
+          value={goal}
+          onChange={handleGoalChange}
+          placeholder="e.g., Practice scales for 20 minutes"
+        />
+        <br />
+        <button type="submit" disabled={goal === ''}>
+          Submit
+        </button>
+      </form>
+
+      {isLoading && <div>Loading...</div>}
+      {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
+
+      <ul>
+        {allSnippets.map((snippet) => (
+          <li key={snippet.id}>
+            {snippet.goal} {snippet.isCompleted ? 'complete' : ''}
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }
 
 export default PracticeForm;
+
+// TASKS:
+// New Airtable Token
+// Use "Task" for new things to do keyword
+// Create select menu for practice type
+// Make all fields required
+// Add feedback to user behavior ("Please fill all fields to submit");
