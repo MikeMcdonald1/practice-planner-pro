@@ -5,6 +5,7 @@ function PracticeForm() {
   // const [musicalKey, setMusicalKey] = useState(DROPDOWN MENU?);
   // const [metronome, setMetronome] = useState(TEXT INPUT OR NUMBERS ONLY);
   // const [timeSpent, setTimeSpent] = useState(TEXT INPUT OR NUMBERS ONLY);
+  const [formData, setFormData] = useState({});
 
   const [goal, setGoal] = useState(''); // the goal field in the snippet object, a single item essentialy, 1 of 5 in larger snippet
   const [newSnippet, setNewSnippet] = useState(''); //a snippet object requiring all 5 fields
@@ -194,6 +195,44 @@ function PracticeForm() {
     }
   }
 
+  // 4. Complete a practice snippet
+  async function completeSnippet(id) {
+    const options = {
+      method: 'PATCH',
+      headers: {
+        Authorization: token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        records: [
+          {
+            id: id,
+            fields: {
+              isCompleted: true,
+            },
+          },
+        ],
+      }),
+    };
+
+    try {
+      setIsSaving(true);
+      const resp = await fetch(url, options);
+      if (!resp.ok) throw new Error('Failed to mark snippet as complete');
+
+      setAllSnippets((prevSnippets) =>
+        prevSnippets.map((snippet) =>
+          snippet.id === id ? { ...snippet, isCompleted: true } : snippet
+        )
+      );
+    } catch (error) {
+      setErrorMessage('Error marking snippet as complete');
+      console.log('Error completing snippet:', error);
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
   return (
     <>
       <form onSubmit={handleAddSnippet}>
@@ -212,15 +251,24 @@ function PracticeForm() {
         </button>
       </form>
 
-      {isLoading && <div>Practice Routine Loading...</div>}
+      {isLoading && <div>Loading practice routine...</div>}
       {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
 
-      <ul>
-        {allSnippets.map((snippet) => (
-          <li key={snippet.id}>
-            {snippet.goal} {snippet.isCompleted ? 'complete' : ''}
-          </li>
-        ))}
+      <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
+        {allSnippets
+          .filter((snippet) => !snippet.isCompleted) // show only NOT completed
+          .map((snippet) => (
+            <li key={snippet.id}>
+              <input
+                type="checkbox"
+                className="checkboxItem"
+                checked={false}
+                onChange={() => completeSnippet(snippet.id)}
+                disabled={isSaving}
+              />
+              {snippet.goal}
+            </li>
+          ))}
       </ul>
     </>
   );
@@ -234,3 +282,7 @@ export default PracticeForm;
 // Make all fields required
 // Add feedback to user behavior ("Please fill all fields to submit");
 // How to fetch snippet and render all together (flexbox?) one checkbox, 1 snippet, 5 states
+
+// Add complete snippet functionality
+// Add a way for users to complete/delete a snippet
+// Add a way for users to update/patch a snippet
