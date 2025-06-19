@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
 function PracticeForm() {
-  // const [timeSpent, setTimeSpent] = useState(TEXT INPUT OR NUMBERS ONLY);
   // const [formData, setFormData] = useState({}); USE THIS TO COMBINE ALL FIELDS INTO ONE COOL STATE
 
   const [practiceType, setPracticeType] = useState('');
   const [goal, setGoal] = useState('');
   const [metronome, setMetronome] = useState('');
+  const [timeSpent, setTimeSpent] = useState('');
   const [newSnippet, setNewSnippet] = useState(''); //a snippet object requiring all 5 fields
   const [allSnippets, setAllSnippets] = useState([]); //an array of snippet objects, all the snippets together
 
@@ -35,6 +35,7 @@ function PracticeForm() {
             practiceType: newSnippet.practiceType,
             goal: newSnippet.goal,
             metronome: newSnippet.metronome,
+            timeSpent: newSnippet.timeSpent,
             isCompleted: newSnippet.isCompleted,
           },
         },
@@ -78,16 +79,18 @@ function PracticeForm() {
 
     const newSnippet = {
       //same variable name declared earlier, choose new one
-      //metronome
-      //time spent
       practiceType,
       goal,
       metronome,
+      timeSpent,
       isCompleted: false,
     };
 
     await addSnippet(newSnippet);
+    setPracticeType('');
     setGoal('');
+    setMetronome('');
+    setTimeSpent('');
   }
 
   // 2. useEffect to fetchAllSnippets when App starts(maybe transfer this to the )
@@ -268,7 +271,29 @@ function PracticeForm() {
           required
         />
         <br />
-        <button type="submit" disabled={goal === '' || isSaving}>
+        <label htmlFor="timeSpent">Time Spent (minutes)</label>
+        <br />
+        <input
+          type="number"
+          id="timeSpent"
+          value={timeSpent}
+          onChange={(e) => setTimeSpent(e.target.value)}
+          placeholder="e.g., 20"
+          // min="1"
+          // max="500"
+          required
+        />
+        <br />
+        <button
+          type="submit"
+          disabled={
+            practiceType === '' ||
+            goal === '' ||
+            metronome === '' ||
+            timeSpent === '' ||
+            isSaving
+          }
+        >
           {isSaving ? 'Saving...' : 'Submit'}
         </button>
       </form>
@@ -291,6 +316,7 @@ function PracticeForm() {
               {snippet.practiceType && <span>({snippet.practiceType}) </span>}
               {snippet.goal}
               {snippet.metronome && <span> | {snippet.metronome} BPM</span>}
+              {snippet.timeSpent && <span> | {snippet.timeSpent} Minutes</span>}
             </li>
           ))}
       </ul>
