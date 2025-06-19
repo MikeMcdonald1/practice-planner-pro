@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
 function PracticeForm() {
-  // const [metronome, setMetronome] = useState(TEXT INPUT OR NUMBERS ONLY);
   // const [timeSpent, setTimeSpent] = useState(TEXT INPUT OR NUMBERS ONLY);
   // const [formData, setFormData] = useState({}); USE THIS TO COMBINE ALL FIELDS INTO ONE COOL STATE
 
   const [practiceType, setPracticeType] = useState('');
   const [goal, setGoal] = useState('');
+  const [metronome, setMetronome] = useState('');
   const [newSnippet, setNewSnippet] = useState(''); //a snippet object requiring all 5 fields
   const [allSnippets, setAllSnippets] = useState([]); //an array of snippet objects, all the snippets together
 
@@ -34,6 +34,7 @@ function PracticeForm() {
             // timeSpent: number labelled with minutes(time spent in minutes)
             practiceType: newSnippet.practiceType,
             goal: newSnippet.goal,
+            metronome: newSnippet.metronome,
             isCompleted: newSnippet.isCompleted,
           },
         },
@@ -81,6 +82,7 @@ function PracticeForm() {
       //time spent
       practiceType,
       goal,
+      metronome,
       isCompleted: false,
     };
 
@@ -249,7 +251,20 @@ function PracticeForm() {
           id="goal"
           value={goal}
           onChange={handleGoalChange}
-          placeholder="e.g., Practice scales for 20 minutes"
+          placeholder="e.g., G Major Pentatonic"
+          required
+        />
+        <br />
+        <label htmlFor="metronome"> Metronome (BPM)</label>
+        <br />
+        <input
+          type="number"
+          id="metronome"
+          value={metronome}
+          onChange={(e) => setMetronome(e.target.value)}
+          // min="1"
+          // max="1000"
+          placeholder="e.g., 120"
           required
         />
         <br />
@@ -273,8 +288,9 @@ function PracticeForm() {
                 onChange={() => completeSnippet(snippet.id)}
                 disabled={isSaving}
               />
-              {snippet.practiceType && <span>({snippet.practiceType})</span>}
+              {snippet.practiceType && <span>({snippet.practiceType}) </span>}
               {snippet.goal}
+              {snippet.metronome && <span> | {snippet.metronome} BPM</span>}
             </li>
           ))}
       </ul>
