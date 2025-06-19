@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
 function PracticeForm() {
-  // const [practiceType, setPracticeType] = useState(DROPDOWN MENU?);
-  // const [musicalKey, setMusicalKey] = useState(DROPDOWN MENU?);
   // const [metronome, setMetronome] = useState(TEXT INPUT OR NUMBERS ONLY);
   // const [timeSpent, setTimeSpent] = useState(TEXT INPUT OR NUMBERS ONLY);
-  const [formData, setFormData] = useState({});
+  // const [formData, setFormData] = useState({}); USE THIS TO COMBINE ALL FIELDS INTO ONE COOL STATE
 
-  const [goal, setGoal] = useState(''); // the goal field in the snippet object, a single item essentialy, 1 of 5 in larger snippet
+  const [practiceType, setPracticeType] = useState('');
+  const [goal, setGoal] = useState('');
   const [newSnippet, setNewSnippet] = useState(''); //a snippet object requiring all 5 fields
   const [allSnippets, setAllSnippets] = useState([]); //an array of snippet objects, all the snippets together
 
@@ -15,7 +14,7 @@ function PracticeForm() {
   const [errorMessage, setErrorMessage] = useState(''); //for error message
   const [isSaving, setIsSaving] = useState(false); //for updating snippets EVENTUALLY
 
-  const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
+  const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}?sort[0][field]=Created%20time&sort[0][direction]=asc`;
   const token = `Bearer ${import.meta.env.VITE_PAT}`;
 
   function handleGoalChange(e) {
@@ -31,10 +30,9 @@ function PracticeForm() {
         {
           fields: {
             //add here and then in the return statement? what else is needed?
-            // type: need field/type in airtable
-            // musicalKey:
             // metronome: number labelled with bpm(beats per minute)
             // timeSpent: number labelled with minutes(time spent in minutes)
+            practiceType: newSnippet.practiceType,
             goal: newSnippet.goal,
             isCompleted: newSnippet.isCompleted,
           },
@@ -79,10 +77,9 @@ function PracticeForm() {
 
     const newSnippet = {
       //same variable name declared earlier, choose new one
-      //practice type
-      //musical key
       //metronome
       //time spent
+      practiceType,
       goal,
       isCompleted: false,
     };
@@ -175,13 +172,6 @@ function PracticeForm() {
         snippet.id === updatedSnippet.id ? updatedSnippet : snippet
       );
 
-      //   if (snippet.id === updateSnippet.id) {
-      //     return { ...updatedSnippet };
-      //   } else {
-      //     return snippet;
-      //   }
-      // });
-
       setAllSnippets([updatedSnippets]);
     } catch (error) {
       console.log(error);
@@ -236,6 +226,22 @@ function PracticeForm() {
   return (
     <>
       <form onSubmit={handleAddSnippet}>
+        <label htmlFor="practiceType">Practice Type:</label>
+        <br />
+        <select
+          id="practiceType"
+          value={practiceType}
+          onChange={(e) => setPracticeType(e.target.value)}
+          required
+        >
+          <option value="">-</option>
+          <option value="Warmups">Warmups</option>
+          <option value="Scales">Scales</option>
+          <option value="Etudes & Exercises">Etudes & Exercises</option>
+          <option value="Repertoire & Songs">Repertoire & Songs</option>
+          <option value="Other">Other</option>
+        </select>
+        <br />
         <label htmlFor="goal">Enter your practice goal:</label>
         <br />
         <input
@@ -244,6 +250,7 @@ function PracticeForm() {
           value={goal}
           onChange={handleGoalChange}
           placeholder="e.g., Practice scales for 20 minutes"
+          required
         />
         <br />
         <button type="submit" disabled={goal === '' || isSaving}>
@@ -266,6 +273,7 @@ function PracticeForm() {
                 onChange={() => completeSnippet(snippet.id)}
                 disabled={isSaving}
               />
+              {snippet.practiceType && <span>({snippet.practiceType})</span>}
               {snippet.goal}
             </li>
           ))}
@@ -279,10 +287,15 @@ export default PracticeForm;
 // TASKS:
 // Use "Task" for new things to do keyword
 // Create select menu for practice type
+// Create select menu for music key
+// Create text/number input for metronome marking in bpm
+// Create text/number input for time spent in min
+// Create table for rendering all info in one snippet
+
 // Make all fields required
 // Add feedback to user behavior ("Please fill all fields to submit");
-// How to fetch snippet and render all together (flexbox?) one checkbox, 1 snippet, 5 states
 
-// Add complete snippet functionality
-// Add a way for users to complete/delete a snippet
+// How to fetch snippet and render all together (flexbox?) one checkbox, 1 snippet, 5 states(use table element with 5 columns)
+
 // Add a way for users to update/patch a snippet
+// Add a way for users to delete a snippet
