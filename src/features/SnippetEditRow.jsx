@@ -1,4 +1,6 @@
 import React from 'react';
+import SnippetList from './SnippetList';
+import NumberInput from '../shared/NumberInput';
 
 function SnippetEditRow({
   editFields,
@@ -24,6 +26,7 @@ function SnippetEditRow({
         <option value="Repertoire & Songs">Repertoire & Songs</option>
         <option value="Other">Other</option>
       </select>
+
       <input
         type="text"
         value={editFields.goal}
@@ -32,26 +35,29 @@ function SnippetEditRow({
         placeholder="e.g., G Major Pentatonic"
         required
       />
-      <input
-        type="number"
+
+      <NumberInput
+        id="edit-metronome"
         value={editFields.metronome}
         onChange={(e) =>
           setEditFields({ ...editFields, metronome: e.target.value })
         }
         min={1}
         max={500}
-        className="metronomeEditSelect"
-        required
+        placeholder="e.g., 100"
       />
-      <input
-        type="number"
+
+      <NumberInput
+        id="edit-time-spent"
         value={editFields.timeSpent}
         onChange={(e) =>
           setEditFields({ ...editFields, timeSpent: e.target.value })
         }
-        className="timeSpentEditSelect"
-        required
+        min={1}
+        max={500}
+        placeholder="e.g., 30"
       />
+
       <button onClick={onSave} disabled={isSaving} className="saveEditButton">
         Save
       </button>

@@ -272,7 +272,7 @@ function PracticeForm() {
           onChange={(e) => setMetronome(e.target.value)}
           min={1}
           max={500}
-          placeholder="e.g., 120"
+          placeholder="e.g., 100"
         />
         <br />
         <NumberInput
@@ -282,7 +282,7 @@ function PracticeForm() {
           onChange={(e) => setTimeSpent(e.target.value)}
           min={1}
           max={500}
-          placeholder="e.g., 20"
+          placeholder="e.g., 30"
         />
         <br />
         <button
@@ -324,8 +324,6 @@ export default PracticeForm;
 
 // Add a way for users to delete a snippet
 // debounce the input with useEffect or create Clean up call
-// Add a SnippetList.jsx
-// Add a NumberInput.jsx for metronome and timeSpent inputs
 
 //Break into components and meet requirements
 // Cache Result of API call so it doesn't call everytime

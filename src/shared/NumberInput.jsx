@@ -12,7 +12,6 @@ function NumberInput({
   return (
     <>
       <label htmlFor={id}>{label}</label>
-      <br />
       <input
         type="number"
         id={id}
