@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import SnippetEditRow from '../features/SnippetEditRow';
 import SnippetList from '../features/SnippetList';
+import NumberInput from '../shared/NumberInput';
 
 function PracticeForm() {
-  // const [formData, setFormData] = useState({}); USE THIS TO COMBINE ALL FIELDS INTO ONE COOL STATE
-
   const [practiceType, setPracticeType] = useState('');
   const [goal, setGoal] = useState('');
   const [metronome, setMetronome] = useState('');
   const [timeSpent, setTimeSpent] = useState('');
-  const [allSnippets, setAllSnippets] = useState([]); //an array of snippet objects, all the snippets together
+  const [allSnippets, setAllSnippets] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -266,30 +265,24 @@ function PracticeForm() {
           required
         />
         <br />
-        <label htmlFor="metronome"> Metronome (BPM)</label>
-        <br />
-        <input
-          type="number"
+        <NumberInput
+          label="Metronome (BPM)"
           id="metronome"
           value={metronome}
           onChange={(e) => setMetronome(e.target.value)}
           min={1}
           max={500}
           placeholder="e.g., 120"
-          required
         />
         <br />
-        <label htmlFor="timeSpent">Time Spent (minutes)</label>
-        <br />
-        <input
-          type="number"
+        <NumberInput
+          label="Time Spent (minutes)"
           id="timeSpent"
           value={timeSpent}
           onChange={(e) => setTimeSpent(e.target.value)}
-          placeholder="e.g., 20"
           min={1}
           max={500}
-          required
+          placeholder="e.g., 20"
         />
         <br />
         <button
@@ -331,6 +324,8 @@ export default PracticeForm;
 
 // Add a way for users to delete a snippet
 // debounce the input with useEffect or create Clean up call
+// Add a SnippetList.jsx
+// Add a NumberInput.jsx for metronome and timeSpent inputs
 
 //Break into components and meet requirements
 // Cache Result of API call so it doesn't call everytime
