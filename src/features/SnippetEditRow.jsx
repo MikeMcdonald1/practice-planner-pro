@@ -1,6 +1,7 @@
 import React from 'react';
 import SnippetList from './SnippetList';
 import NumberInput from '../shared/NumberInput';
+import GeneralButton from '../shared/GeneralButton';
 
 function SnippetEditRow({
   editFields,
@@ -58,16 +59,20 @@ function SnippetEditRow({
         placeholder="e.g., 30"
       />
 
-      <button onClick={onSave} disabled={isSaving} className="saveEditButton">
+      <GeneralButton
+        onClick={onSave}
+        disabled={isSaving}
+        className="saveEditButton"
+      >
         Save
-      </button>
-      <button
+      </GeneralButton>
+      <GeneralButton
         onClick={onCancel}
         disabled={isSaving}
         className="cancelEditButton"
       >
         Cancel
-      </button>
+      </GeneralButton>
     </>
   );
 }
