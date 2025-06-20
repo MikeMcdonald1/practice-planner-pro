@@ -192,6 +192,12 @@ function PracticeForm() {
     }
   }
 
+  function handleSaveEdit(id) {
+    updateSnippet({ id, ...editFields });
+    setEditId(null);
+    setEditFields({});
+  }
+
   // 4. Complete a practice snippet
   async function completeSnippet(id) {
     const options = {
@@ -308,17 +314,47 @@ function PracticeForm() {
           .filter((snippet) => !snippet.isCompleted)
           .map((snippet) => (
             <li key={snippet.id}>
-              <input
-                type="checkbox"
-                className="checkboxItem"
-                checked={false}
-                onChange={() => completeSnippet(snippet.id)}
-                disabled={isSaving}
-              />
-              {snippet.practiceType && <span> {snippet.practiceType} | </span>}
-              {snippet.goal}
-              {snippet.metronome && <span> | {snippet.metronome} BPM</span>}
-              {snippet.timeSpent && <span> | {snippet.timeSpent} Minutes</span>}
+              {editId === snippet.id ? (
+                <SnippetEditRow
+                  editFields={editFields}
+                  setEditFields={setEditFields}
+                  onSave={() => handleSaveEdit(snippet.id)}
+                  onCancel={() => setEditId(null)}
+                  isSaving={isSaving}
+                />
+              ) : (
+                <>
+                  <input
+                    type="checkbox"
+                    className="checkboxItem"
+                    checked={false}
+                    onChange={() => completeSnippet(snippet.id)}
+                    disabled={isSaving}
+                  />
+                  {snippet.practiceType && (
+                    <span> {snippet.practiceType} | </span>
+                  )}
+                  {snippet.goal}
+                  {snippet.metronome && <span> | {snippet.metronome} BPM</span>}
+                  {snippet.timeSpent && (
+                    <span> | {snippet.timeSpent} Minutes</span>
+                  )}
+                  <button
+                    onClick={() => {
+                      setEditId(snippet.id);
+                      setEditFields({
+                        practiceType: snippet.practiceType || '',
+                        goal: snippet.goal || '',
+                        metronome: snippet.metronome || '',
+                        timeSpent: snippet.timeSpent || '',
+                      });
+                    }}
+                    className="editButton"
+                  >
+                    Edit
+                  </button>
+                </>
+              )}
             </li>
           ))}
       </ul>
