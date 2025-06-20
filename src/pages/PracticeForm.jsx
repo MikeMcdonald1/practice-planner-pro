@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SnippetEditRow from '../features/SnippetEditRow';
+import SnippetList from '../features/SnippetList';
 
 function PracticeForm() {
   // const [formData, setFormData] = useState({}); USE THIS TO COMBINE ALL FIELDS INTO ONE COOL STATE
@@ -20,7 +21,6 @@ function PracticeForm() {
   const token = `Bearer ${import.meta.env.VITE_PAT}`;
 
   function handleGoalChange(e) {
-    //rename handleSnippetChange?
     setGoal(e.target.value); //maybe set newSnippet??
     console.log(e.target.value);
   }
@@ -309,55 +309,17 @@ function PracticeForm() {
       {isLoading && <div>Loading practice routine...</div>}
       {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
 
-      <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
-        {allSnippets
-          .filter((snippet) => !snippet.isCompleted)
-          .map((snippet) => (
-            <li key={snippet.id}>
-              {editId === snippet.id ? (
-                <SnippetEditRow
-                  editFields={editFields}
-                  setEditFields={setEditFields}
-                  onSave={() => handleSaveEdit(snippet.id)}
-                  onCancel={() => setEditId(null)}
-                  isSaving={isSaving}
-                />
-              ) : (
-                <>
-                  <input
-                    type="checkbox"
-                    className="checkboxItem"
-                    checked={false}
-                    onChange={() => completeSnippet(snippet.id)}
-                    disabled={isSaving}
-                  />
-                  {snippet.practiceType && (
-                    <span> {snippet.practiceType} | </span>
-                  )}
-                  {snippet.goal}
-                  {snippet.metronome && <span> | {snippet.metronome} BPM</span>}
-                  {snippet.timeSpent && (
-                    <span> | {snippet.timeSpent} Minutes</span>
-                  )}
-                  <button
-                    onClick={() => {
-                      setEditId(snippet.id);
-                      setEditFields({
-                        practiceType: snippet.practiceType || '',
-                        goal: snippet.goal || '',
-                        metronome: snippet.metronome || '',
-                        timeSpent: snippet.timeSpent || '',
-                      });
-                    }}
-                    className="editButton"
-                  >
-                    Edit
-                  </button>
-                </>
-              )}
-            </li>
-          ))}
-      </ul>
+      <SnippetList
+        snippets={allSnippets}
+        editId={editId}
+        editFields={editFields}
+        setEditId={setEditId}
+        setEditFields={setEditFields}
+        onSaveEdit={handleSaveEdit}
+        onCancelEdit={() => setEditId(null)}
+        onComplete={completeSnippet}
+        isSaving={isSaving}
+      />
     </>
   );
 }
@@ -365,12 +327,13 @@ function PracticeForm() {
 export default PracticeForm;
 
 // TASKS:
-// Use "Task" for new things to do keyword
 // Add feedback to user behavior ("Please fill all fields to submit");
 
-// How to fetch snippet and render all together (flexbox?) one checkbox, 1 snippet, 5 states(use table element with 5 columns)
-// Create table for rendering all info in one snippet
-
-// Add a way for users to update/patch a snippet
 // Add a way for users to delete a snippet
-// debounce the input with useEffect
+// debounce the input with useEffect or create Clean up call
+
+//Break into components and meet requirements
+// Cache Result of API call so it doesn't call everytime
+// Reuse Number fields
+// Style with flexbox
+// Add sorting for each of the 4 fields
