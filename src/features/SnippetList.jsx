@@ -1,5 +1,6 @@
 import React from 'react';
 import SnippetEditRow from './SnippetEditRow';
+import GeneralButton from '../shared/GeneralButton';
 
 function SnippetList({
   snippets,
@@ -43,7 +44,7 @@ function SnippetList({
                 {snippet.timeSpent && (
                   <span> | {snippet.timeSpent} Minutes</span>
                 )}
-                <button
+                <GeneralButton
                   onClick={() => {
                     setEditId(snippet.id);
                     setEditFields({
@@ -56,7 +57,7 @@ function SnippetList({
                   className="editButton"
                 >
                   Edit
-                </button>
+                </GeneralButton>
               </>
             )}
           </li>
