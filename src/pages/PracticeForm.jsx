@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import SnippetEditRow from '../features/SnippetEditRow';
 
 function PracticeForm() {
   // const [formData, setFormData] = useState({}); USE THIS TO COMBINE ALL FIELDS INTO ONE COOL STATE
@@ -7,14 +8,15 @@ function PracticeForm() {
   const [goal, setGoal] = useState('');
   const [metronome, setMetronome] = useState('');
   const [timeSpent, setTimeSpent] = useState('');
-  const [newSnippet, setNewSnippet] = useState(''); //a snippet object requiring all 5 fields
   const [allSnippets, setAllSnippets] = useState([]); //an array of snippet objects, all the snippets together
 
-  const [isLoading, setIsLoading] = useState(false); //for loading snippets
-  const [errorMessage, setErrorMessage] = useState(''); //for error message
-  const [isSaving, setIsSaving] = useState(false); //for updating snippets EVENTUALLY
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+  const [editId, setEditId] = useState(null);
+  const [editFields, setEditFields] = useState({});
 
-  const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}?sort[0][field]=Created%20time&sort[0][direction]=asc`;
+  const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}?sort[0][field]=createdTime&sort[0][direction]=asc`;
   const token = `Bearer ${import.meta.env.VITE_PAT}`;
 
   function handleGoalChange(e) {
@@ -23,15 +25,12 @@ function PracticeForm() {
     console.log(e.target.value);
   }
 
-  // 1. function for adding an entire practice snippet(only adds goal field currently)
+  // 1. function for adding an entire practice snippet
   async function addSnippet(newSnippet) {
     const payload = {
       records: [
         {
           fields: {
-            //add here and then in the return statement? what else is needed?
-            // metronome: number labelled with bpm(beats per minute)
-            // timeSpent: number labelled with minutes(time spent in minutes)
             practiceType: newSnippet.practiceType,
             goal: newSnippet.goal,
             metronome: newSnippet.metronome,
@@ -93,7 +92,7 @@ function PracticeForm() {
     setTimeSpent('');
   }
 
-  // 2. useEffect to fetchAllSnippets when App starts(maybe transfer this to the )
+  // 2. useEffect to fetchAllSnippets when App starts
   useEffect(() => {
     async function fetchAllSnippets() {
       setIsLoading(true);
@@ -142,7 +141,10 @@ function PracticeForm() {
         {
           id: editedSnippet.id,
           fields: {
+            practiceType: editedSnippet.practiceType,
             goal: editedSnippet.goal,
+            metronome: editedSnippet.metronome,
+            timeSpent: editedSnippet.timeSpent,
             isCompleted: editedSnippet.isCompleted,
           },
         },
@@ -177,7 +179,7 @@ function PracticeForm() {
         snippet.id === updatedSnippet.id ? updatedSnippet : snippet
       );
 
-      setAllSnippets([updatedSnippets]);
+      setAllSnippets(updatedSnippets);
     } catch (error) {
       console.log(error);
       setErrorMessage(`Error updating practice snippet. Reverting changes...`);
@@ -265,8 +267,8 @@ function PracticeForm() {
           id="metronome"
           value={metronome}
           onChange={(e) => setMetronome(e.target.value)}
-          // min="1"
-          // max="1000"
+          min={1}
+          max={500}
           placeholder="e.g., 120"
           required
         />
@@ -279,8 +281,8 @@ function PracticeForm() {
           value={timeSpent}
           onChange={(e) => setTimeSpent(e.target.value)}
           placeholder="e.g., 20"
-          // min="1"
-          // max="500"
+          min={1}
+          max={500}
           required
         />
         <br />
@@ -303,7 +305,7 @@ function PracticeForm() {
 
       <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
         {allSnippets
-          .filter((snippet) => !snippet.isCompleted) // show only NOT completed
+          .filter((snippet) => !snippet.isCompleted)
           .map((snippet) => (
             <li key={snippet.id}>
               <input
@@ -313,7 +315,7 @@ function PracticeForm() {
                 onChange={() => completeSnippet(snippet.id)}
                 disabled={isSaving}
               />
-              {snippet.practiceType && <span>({snippet.practiceType}) </span>}
+              {snippet.practiceType && <span> {snippet.practiceType} | </span>}
               {snippet.goal}
               {snippet.metronome && <span> | {snippet.metronome} BPM</span>}
               {snippet.timeSpent && <span> | {snippet.timeSpent} Minutes</span>}
@@ -328,16 +330,11 @@ export default PracticeForm;
 
 // TASKS:
 // Use "Task" for new things to do keyword
-// Create select menu for practice type
-// Create select menu for music key
-// Create text/number input for metronome marking in bpm
-// Create text/number input for time spent in min
-// Create table for rendering all info in one snippet
-
-// Make all fields required
 // Add feedback to user behavior ("Please fill all fields to submit");
 
 // How to fetch snippet and render all together (flexbox?) one checkbox, 1 snippet, 5 states(use table element with 5 columns)
+// Create table for rendering all info in one snippet
 
 // Add a way for users to update/patch a snippet
 // Add a way for users to delete a snippet
+// debounce the input with useEffect
