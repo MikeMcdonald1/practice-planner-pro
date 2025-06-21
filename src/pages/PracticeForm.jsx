@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import SnippetList from '../features/SnippetList';
 import NumberInput from '../shared/NumberInput';
 import GeneralButton from '../shared/GeneralButton';
@@ -80,25 +80,27 @@ function PracticeForm() {
     }
   }
 
-  async function handleAddSnippet(e) {
-    e.preventDefault();
+  const handleAddSnippet = useCallback(
+    async (e) => {
+      e.preventDefault();
 
-    const newSnippet = {
-      //same variable name declared earlier, choose new one
-      practiceType,
-      goal,
-      metronome,
-      timeSpent,
-      isCompleted: false,
-    };
+      const newSnippet = {
+        practiceType,
+        goal,
+        metronome,
+        timeSpent,
+        isCompleted: false,
+      };
 
-    await addSnippet(newSnippet);
-    setPracticeType('');
-    setGoal('');
-    setMetronome('');
-    setTimeSpent('');
-    setSuccessMessage('Practice snippet saved!');
-  }
+      await addSnippet(newSnippet);
+      setPracticeType('');
+      setGoal('');
+      setMetronome('');
+      setTimeSpent('');
+      setSuccessMessage('Practice snippet saved!');
+    },
+    [practiceType, goal, metronome, timeSpent, addSnippet]
+  );
 
   // 2. useEffect to fetchAllSnippets when App starts
   useEffect(() => {
@@ -334,16 +336,12 @@ function PracticeForm() {
 export default PracticeForm;
 
 // TASKS:
-// Add feedback to user behavior ("Please fill all fields to submit");
-
-// Add a way for users to delete a snippet
-
-// useEffect - debounce the input with useEffect, timeout/debounce, clean up?
 // useCallback - memoize one of the handlers?
-
-//Break into components and meet requirements
-// Cache Result of API call so it doesn't call everytime
-// Reuse Number fields
-// Style with flexbox
-// Add sorting for each of the 4 fields
+// Add feedback to user behavior ("Please fill all fields to submit");
 // Add a "No active practice snippets" message for empty list
+// Cache Result of API call so it doesn't call everytime
+// Style with flexbox
+
+// Stretch Goals
+// Add sorting for each of the 4 fields
+// Add a way for users to delete a snippet
