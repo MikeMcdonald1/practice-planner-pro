@@ -60,6 +60,7 @@ function SnippetEditRow({
       />
 
       <GeneralButton
+        type="button"
         onClick={onSave}
         disabled={isSaving}
         className="saveEditButton"
@@ -67,6 +68,7 @@ function SnippetEditRow({
         Save
       </GeneralButton>
       <GeneralButton
+        type="button"
         onClick={onCancel}
         disabled={isSaving}
         className="cancelEditButton"

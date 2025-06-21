@@ -22,15 +22,13 @@ function PracticeForm() {
   const activeSnippets = allSnippets.filter((snippet) => !snippet.isCompleted);
 
   useEffect(() => {
-    //useEffect for auto-clear success message
     if (!successMessage) return;
     const timer = setTimeout(() => setSuccessMessage(''), 3000);
     return () => clearTimeout(timer);
   }, [successMessage]);
 
   function handleGoalChange(e) {
-    setGoal(e.target.value); //maybe set newSnippet??
-    console.log(e.target.value);
+    setGoal(e.target.value);
   }
 
   // 1. function for adding an entire practice snippet
@@ -68,11 +66,9 @@ function PracticeForm() {
 
       const { records } = await resp.json();
       const savedSnippet = {
-        //get the saved snippet from the POST response
         id: records[0].id,
         ...records[0].fields,
       };
-      console.log(savedSnippet);
       setAllSnippets((prevSnippets) => [...prevSnippets, savedSnippet]);
     } catch (error) {
       setErrorMessage(error.message);
@@ -100,7 +96,7 @@ function PracticeForm() {
       setTimeSpent('');
       setSuccessMessage('Practice snippet saved!');
     },
-    [practiceType, goal, metronome, timeSpent, addSnippet]
+    [practiceType, goal, metronome, timeSpent]
   );
 
   // 2. useEffect to fetchAllSnippets when App starts
@@ -123,7 +119,6 @@ function PracticeForm() {
         }
 
         const data = await resp.json();
-        console.log('Fetched data:', data.records);
         setAllSnippets(
           data.records.map((record) => ({
             id: record.id,
@@ -131,7 +126,6 @@ function PracticeForm() {
           }))
         );
       } catch (error) {
-        console.log('Error fetching snippets:', error);
         setErrorMessage(error.message);
       } finally {
         setIsLoading(false);
@@ -193,7 +187,6 @@ function PracticeForm() {
       setAllSnippets(updatedSnippets);
       setSuccessMessage('Practice snippet updated!');
     } catch (error) {
-      console.log(error);
       setErrorMessage(`Error updating practice snippet. Reverting changes...`);
       const revertedSnippets = allSnippets.map((snippet) =>
         snippet.id === originalSnippet.id ? { ...originalSnippet } : snippet
@@ -242,12 +235,10 @@ function PracticeForm() {
       );
     } catch (error) {
       setErrorMessage('Error marking snippet as complete');
-      console.log('Error completing snippet:', error);
     } finally {
       setIsSaving(false);
     }
   }
-  console.log('Snippets:', allSnippets, 'length', allSnippets.length);
   return (
     <>
       {successMessage && (
@@ -315,7 +306,7 @@ function PracticeForm() {
         </GeneralButton>
       </form>
       {isLoading && <div>Loading practice routine...</div>}
-      {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
+      {errorMessage && <div>{errorMessage}</div>}
 
       {!isLoading && activeSnippets.length === 0 && !errorMessage && (
         <div>Please use the form above to add a practice snippet!</div>
@@ -338,12 +329,12 @@ function PracticeForm() {
 export default PracticeForm;
 
 // TASKS:
-// useCallback - memoize one of the handlers?
 // Add feedback to user behavior ("Please fill all fields to submit");
-// Add a "No active practice snippets" message for empty list
-// Cache Result of API call so it doesn't call everytime
+
 // Style with flexbox
+// Add accessibility
 
 // Stretch Goals
 // Add sorting for each of the 4 fields
 // Add a way for users to delete a snippet
+// Cache Result of API call so it doesn't call everytime
