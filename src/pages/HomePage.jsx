@@ -3,8 +3,8 @@ import React from 'react';
 function HomePage() {
   return (
     <div>
-      <h1>Music Practice Planner</h1>
-      <p>Plan a practice session!</p>
+      <h1>Practice Planner Pro</h1>
+      <p>Structured Practice. Pro Results.</p>
     </div>
   );
 }
