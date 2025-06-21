@@ -19,6 +19,7 @@ function PracticeForm() {
 
   const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}?sort[0][field]=createdTime&sort[0][direction]=asc`;
   const token = `Bearer ${import.meta.env.VITE_PAT}`;
+  const activeSnippets = allSnippets.filter((snippet) => !snippet.isCompleted);
 
   useEffect(() => {
     //useEffect for auto-clear success message
@@ -246,13 +247,12 @@ function PracticeForm() {
       setIsSaving(false);
     }
   }
-
+  console.log('Snippets:', allSnippets, 'length', allSnippets.length);
   return (
     <>
       {successMessage && (
         <div className="success-message">{successMessage}</div>
       )}
-
       <form onSubmit={handleAddSnippet}>
         <label htmlFor="practiceType">Practice Type:</label>
         <br />
@@ -314,12 +314,14 @@ function PracticeForm() {
           {isSaving ? 'Saving...' : 'Submit'}
         </GeneralButton>
       </form>
-
       {isLoading && <div>Loading practice routine...</div>}
       {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
 
+      {!isLoading && activeSnippets.length === 0 && !errorMessage && (
+        <div>Please use the form above to add a practice snippet!</div>
+      )}
       <SnippetList
-        snippets={allSnippets}
+        snippets={activeSnippets}
         editId={editId}
         editFields={editFields}
         setEditId={setEditId}
