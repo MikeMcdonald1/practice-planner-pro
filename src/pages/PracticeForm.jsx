@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import SnippetEditRow from '../features/SnippetEditRow';
 import SnippetList from '../features/SnippetList';
 import NumberInput from '../shared/NumberInput';
 import GeneralButton from '../shared/GeneralButton';
@@ -13,12 +12,20 @@ function PracticeForm() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [editId, setEditId] = useState(null);
   const [editFields, setEditFields] = useState({});
 
   const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}?sort[0][field]=createdTime&sort[0][direction]=asc`;
   const token = `Bearer ${import.meta.env.VITE_PAT}`;
+
+  useEffect(() => {
+    //useEffect for auto-clear success message
+    if (!successMessage) return;
+    const timer = setTimeout(() => setSuccessMessage(''), 3000);
+    return () => clearTimeout(timer);
+  }, [successMessage]);
 
   function handleGoalChange(e) {
     setGoal(e.target.value); //maybe set newSnippet??
@@ -65,7 +72,7 @@ function PracticeForm() {
         ...records[0].fields,
       };
       console.log(savedSnippet);
-      setAllSnippets((prevSnippets) => [...prevSnippets, savedSnippet]); //prevSnippets is temporary label for most up to date value of state
+      setAllSnippets((prevSnippets) => [...prevSnippets, savedSnippet]);
     } catch (error) {
       setErrorMessage(error.message);
     } finally {
@@ -90,6 +97,7 @@ function PracticeForm() {
     setGoal('');
     setMetronome('');
     setTimeSpent('');
+    setSuccessMessage('Practice snippet saved!');
   }
 
   // 2. useEffect to fetchAllSnippets when App starts
@@ -180,6 +188,7 @@ function PracticeForm() {
       );
 
       setAllSnippets(updatedSnippets);
+      setSuccessMessage('Practice snippet updated!');
     } catch (error) {
       console.log(error);
       setErrorMessage(`Error updating practice snippet. Reverting changes...`);
@@ -238,6 +247,10 @@ function PracticeForm() {
 
   return (
     <>
+      {successMessage && (
+        <div className="success-message">{successMessage}</div>
+      )}
+
       <form onSubmit={handleAddSnippet}>
         <label htmlFor="practiceType">Practice Type:</label>
         <br />
