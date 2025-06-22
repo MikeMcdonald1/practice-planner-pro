@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import styles from './PracticeForm.module.css';
 import SnippetList from '../features/SnippetList';
 import NumberInput from '../shared/NumberInput';
 import GeneralButton from '../shared/GeneralButton';
