@@ -1,5 +1,5 @@
 import React from 'react';
-import SnippetList from './SnippetList';
+import styles from './SnippetEditRow.module.css';
 import NumberInput from '../shared/NumberInput';
 import GeneralButton from '../shared/GeneralButton';
 

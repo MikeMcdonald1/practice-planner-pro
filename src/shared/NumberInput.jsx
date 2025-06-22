@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './NumberInput.module.css';
 
 function NumberInput({
   label,
@@ -12,6 +13,7 @@ function NumberInput({
   return (
     <>
       <label htmlFor={id}>{label}</label>
+      <br />
       <input
         type="number"
         id={id}

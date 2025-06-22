@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './SnippetList.module.css';
 import SnippetEditRow from './SnippetEditRow';
 import GeneralButton from '../shared/GeneralButton';
 
