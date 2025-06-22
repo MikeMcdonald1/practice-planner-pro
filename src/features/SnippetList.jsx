@@ -15,7 +15,7 @@ function SnippetList({
   isSaving,
 }) {
   return (
-    <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
+    <ul className={styles.snippetList}>
       {snippets
         .filter((snippet) => !snippet.isCompleted)
         .map((snippet) => (
@@ -55,7 +55,7 @@ function SnippetList({
                       timeSpent: snippet.timeSpent || '',
                     });
                   }}
-                  className="editButton"
+                  className={styles.editButton}
                 >
                   Edit
                 </GeneralButton>
