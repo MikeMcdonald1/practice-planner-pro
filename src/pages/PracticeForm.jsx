@@ -242,76 +242,88 @@ function PracticeForm() {
   }
   return (
     <>
+      <div className={styles.practiceFormContainer}>
+        <form onSubmit={handleAddSnippet} className={styles.practiceForm}>
+          <label htmlFor="practiceType">Practice Type:</label>
+          <select
+            id="practiceType"
+            value={practiceType}
+            onChange={(e) => setPracticeType(e.target.value)}
+            required
+          >
+            <option value="">-</option>
+            <option value="Warmups">Warmups</option>
+            <option value="Scales">Scales</option>
+            <option value="Etudes & Exercises">Etudes & Exercises</option>
+            <option value="Repertoire & Songs">Repertoire & Songs</option>
+            <option value="Other">Other</option>
+          </select>
+
+          <label htmlFor="goal">Enter your practice goal:</label>
+          <input
+            type="text"
+            id="goal"
+            value={goal}
+            onChange={handleGoalChange}
+            placeholder="e.g., G Major Pentatonic"
+            required
+          />
+
+          <NumberInput
+            label="Metronome (BPM)"
+            id="metronome"
+            value={metronome}
+            onChange={(e) => setMetronome(e.target.value)}
+            min={1}
+            max={500}
+            placeholder="e.g., 100"
+          />
+
+          <NumberInput
+            label="Time Spent (minutes)"
+            id="timeSpent"
+            value={timeSpent}
+            onChange={(e) => setTimeSpent(e.target.value)}
+            min={1}
+            max={500}
+            placeholder="e.g., 30"
+          />
+
+          <GeneralButton
+            type="submit"
+            id="submit"
+            className={styles.submitButton}
+            disabled={
+              practiceType === '' ||
+              goal === '' ||
+              metronome === '' ||
+              timeSpent === '' ||
+              isSaving
+            }
+          >
+            {isSaving ? 'Saving...' : 'Submit'}
+          </GeneralButton>
+        </form>
+      </div>
+
       {successMessage && (
-        <div className="success-message">{successMessage}</div>
+        <div className={styles.successMessage}>{successMessage}</div>
       )}
-      <form onSubmit={handleAddSnippet}>
-        <label htmlFor="practiceType">Practice Type:</label>
-        <br />
-        <select
-          id="practiceType"
-          value={practiceType}
-          onChange={(e) => setPracticeType(e.target.value)}
-          required
-        >
-          <option value="">-</option>
-          <option value="Warmups">Warmups</option>
-          <option value="Scales">Scales</option>
-          <option value="Etudes & Exercises">Etudes & Exercises</option>
-          <option value="Repertoire & Songs">Repertoire & Songs</option>
-          <option value="Other">Other</option>
-        </select>
-        <br />
-        <label htmlFor="goal">Enter your practice goal:</label>
-        <br />
-        <input
-          type="text"
-          id="goal"
-          value={goal}
-          onChange={handleGoalChange}
-          placeholder="e.g., G Major Pentatonic"
-          required
-        />
-        <br />
-        <NumberInput
-          label="Metronome (BPM)"
-          id="metronome"
-          value={metronome}
-          onChange={(e) => setMetronome(e.target.value)}
-          min={1}
-          max={500}
-          placeholder="e.g., 100"
-        />
-        <br />
-        <NumberInput
-          label="Time Spent (minutes)"
-          id="timeSpent"
-          value={timeSpent}
-          onChange={(e) => setTimeSpent(e.target.value)}
-          min={1}
-          max={500}
-          placeholder="e.g., 30"
-        />
-        <br />
-        <GeneralButton
-          type="submit"
-          disabled={
-            practiceType === '' ||
-            goal === '' ||
-            metronome === '' ||
-            timeSpent === '' ||
-            isSaving
-          }
-        >
-          {isSaving ? 'Saving...' : 'Submit'}
-        </GeneralButton>
-      </form>
-      {isLoading && <div>Loading practice routine...</div>}
+
+      {isLoading && (
+        <div className={styles.isLoadingMessage}>
+          Loading practice routine...
+        </div>
+      )}
+
       {errorMessage && <div>{errorMessage}</div>}
 
       {!isLoading && activeSnippets.length === 0 && !errorMessage && (
-        <div>Please use the form above to add a practice snippet!</div>
+        <div className={styles.emptyFormMessage}>
+          Please use the form above to add a practice snippet!
+        </div>
       )}
+
       <SnippetList
         snippets={activeSnippets}
         editId={editId}

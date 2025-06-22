@@ -1,6 +1,6 @@
 #root {
-  max-width: 1280px; /* prevents content from stretching too wide on big screens */
-  margin: 0 auto; /* centers the whole app horizontally */
-  padding: 2rem; /* adds space inside the root container (all around the content */
-  text-align: center; /* centers inline text and elements horizontally */
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
 }
