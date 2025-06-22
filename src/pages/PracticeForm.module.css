@@ -1,9 +1,3 @@
-.successMessage {
-  color: #09c043;
-  margin-top: 1em;
-  font-weight: 500;
-}
-
 .practiceFormContainer {
   display: flex;
   flex-direction: column;
@@ -21,4 +15,11 @@
 
 .submitButton {
   margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.successMessage {
+  color: #09c043;
+  margin-top: 1em;
+  font-weight: 500;
 }

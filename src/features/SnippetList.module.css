@@ -1,0 +1,15 @@
+.snippetList {
+  list-style-type: none;
+  width: 100%;
+}
+
+.snippetList li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75em;
+  padding: 0.5em 1.25em;
+  background-color: #393939;
+  border-radius: 10px;
+}
