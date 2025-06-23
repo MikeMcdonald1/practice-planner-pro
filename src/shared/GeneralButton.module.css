@@ -1,0 +1,30 @@
+button {
+  border-radius: 10px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.1em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.14);
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    border-width 0.2s;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  border-color: transparent;
+}
+
+button:enabled:hover {
+  border-color: #c8b04f;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto #c8b04f;
+  box-shadow: 0 0 0 3px #72601d;
+}

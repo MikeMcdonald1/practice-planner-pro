@@ -32,7 +32,6 @@ function SnippetEditRow({
         type="text"
         value={editFields.goal}
         onChange={(e) => setEditFields({ ...editFields, goal: e.target.value })}
-        className="goalEditSelect"
         placeholder="e.g., G Major Pentatonic"
         required
       />
@@ -63,7 +62,7 @@ function SnippetEditRow({
         type="button"
         onClick={onSave}
         disabled={isSaving}
-        className="saveEditButton"
+        className={styles.saveEditButton}
       >
         Save
       </GeneralButton>
@@ -71,7 +70,7 @@ function SnippetEditRow({
         type="button"
         onClick={onCancel}
         disabled={isSaving}
-        className="cancelEditButton"
+        className={styles.cancelEditButton}
       >
         Cancel
       </GeneralButton>

@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './NumberInput.module.css';
 
 function NumberInput({
   label,
