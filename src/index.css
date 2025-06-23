@@ -5,8 +5,8 @@
   font-family: 'Ubuntu', Arial, sans-serif;
   line-height: 1.75;
   font-weight: 400;
-  color: #ffffffde;
-  background-color: #242424;
+  color: var(--color-text);
+  background-color: var(--color-background);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -35,17 +35,26 @@ body {
   min-height: 100vh;
 }
 
-/* @media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: light) {
   :root {
-    color: #393939;
-    background-color: #ffffffde;
+    --color-background: #929292;
+    --color-text: #181818;
+    --color-gold: #d8dbde;
+    --color-accent-gold: #50b9c7;
+    --color-red: #0aa7cf;
+    --color-accent-red: #07899a;
+    --color-success: #09c043;
+    --color-accent-green: #068e31;
+    --color-link: #50b9c7;
+    --color-snippet: #d8dbde;
+    --color-snippet-hover: #ced0d2;
+    --color-button-background: #0aa7cf;
+
+    background-image:
+      linear-gradient(black 0.1px, transparent 0.3px),
+      linear-gradient(to right, #0aa7cf 0.75px, transparent 0.5px);
+    background-size: 40px 20px;
+    background-color: #869696;
+    font-weight: 500;
   }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    color: #0dff5a;
-    font-weight: 600;
-    background-color: #393939;
-  }
-} */
+}
