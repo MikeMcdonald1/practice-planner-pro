@@ -32,7 +32,7 @@ function SnippetList({
               <>
                 <input
                   type="checkbox"
-                  className="checkboxItem"
+                  aria-label="Mark as complete"
                   checked={false}
                   onChange={() => onComplete(snippet.id)}
                   disabled={isSaving}

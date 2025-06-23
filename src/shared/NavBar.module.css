@@ -3,8 +3,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #a79242;
-  border-bottom: 3px solid #b40d0d;
+  background-color: var(--color-gold);
+  border-bottom: 3px solid var(--color-red);
   border-radius: 0.75em;
   margin-bottom: 1em;
   padding: 0.4em 0;
@@ -20,14 +20,14 @@
 
 .link {
   color: #141414;
-  text-shadow: 1px 1px #72601d;
+  text-shadow: 1px 1px var(--color-accent-gold);
   font-size: 1.05em;
   font-weight: 500;
   text-decoration: none;
 }
 
 .link:hover {
-  color: #b40d0d;
+  color: var(--color-red);
   transition:
     background 0.2s,
     color 0.2s;

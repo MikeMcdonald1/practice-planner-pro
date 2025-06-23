@@ -5,7 +5,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--color-button-background);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.14);
   cursor: pointer;
   transition:
@@ -20,11 +20,11 @@ button:disabled {
 }
 
 button:enabled:hover {
-  border-color: #c8b04f;
+  border-color: var(--color-gold);
 }
 
 button:focus,
 button:focus-visible {
-  outline: 4px auto #c8b04f;
-  box-shadow: 0 0 0 3px #72601d;
+  outline: 4px auto var(--color-gold);
+  box-shadow: 0 0 0 3px var(--color-accent-gold);
 }

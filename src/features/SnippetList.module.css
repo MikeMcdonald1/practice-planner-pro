@@ -11,12 +11,12 @@
   gap: 0.5rem;
   margin-bottom: 0.75em;
   padding: 0.5em 1.25em;
-  background-color: #393939;
+  background-color: var(--color-snippet);
   border-radius: 10px;
 }
 
 .snippetList li:hover {
-  background-color: #464545;
+  background-color: var(--color-snippet-hover);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.75);
   transition:
     background-color 0.2s,

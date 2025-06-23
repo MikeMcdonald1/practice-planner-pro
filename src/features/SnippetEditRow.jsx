@@ -17,7 +17,6 @@ function SnippetEditRow({
         onChange={(e) =>
           setEditFields({ ...editFields, practiceType: e.target.value })
         }
-        className="practiceTypeEditSelect"
         required
       >
         <option value="">-</option>
