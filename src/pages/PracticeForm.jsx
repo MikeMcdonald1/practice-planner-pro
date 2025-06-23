@@ -254,7 +254,7 @@ function PracticeForm() {
             <option value="">-</option>
             <option value="Warmups">Warmups</option>
             <option value="Scales">Scales</option>
-            <option value="Etudes & Exercises">Etudes & Exercises</option>
+            <option value="Exercises">Exercises</option>
             <option value="Repertoire & Songs">Repertoire & Songs</option>
             <option value="Other">Other</option>
           </select>

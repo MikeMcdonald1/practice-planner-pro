@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Yellowtail&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Ubuntu;
   line-height: 1.75;
-  font-weight: 400;
+  font-weight: 600;
   color: #ffffffde;
   background-color: #242424;
   text-rendering: optimizeLegibility;
@@ -11,16 +14,16 @@
 }
 
 a {
-  font-weight: 500;
+  font-weight: 300;
   color: #0dff5a;
   text-decoration: inherit;
 }
 
 a:hover {
-  color: #09c043;
+  color: #b40d0d;
   transition:
-    background 0.1s,
-    color 0.1s;
+    background 0.2s,
+    color 0.2s;
 }
 
 body {
@@ -29,11 +32,6 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
 }
 
 button {
@@ -45,7 +43,7 @@ button {
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.2s;
 }
 
 button:disabled {
@@ -54,9 +52,14 @@ button:disabled {
   border-color: transparent;
 }
 
-button:hover {
-  border-color: #0dff5a;
+button:disabled:hover {
+  border-color: #b40d0d;
 }
+
+button:enabled:hover {
+  border-color: #c8b04f;
+}
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
