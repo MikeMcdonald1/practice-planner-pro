@@ -14,3 +14,11 @@
   background-color: #393939;
   border-radius: 10px;
 }
+
+.snippetList li:hover {
+  background-color: #464545;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.75);
+  transition:
+    background-color 0.2s,
+    box-shadow 0.2s;
+}

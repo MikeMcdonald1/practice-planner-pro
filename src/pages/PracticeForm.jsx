@@ -306,16 +306,18 @@ function PracticeForm() {
         </form>
       </div>
       {successMessage && (
-        <div className={styles.successMessage}>{successMessage}</div>
+        <div className={styles.successMessage} aria-live="polite">
+          {successMessage}
+        </div>
       )}
 
       {isLoading && (
-        <div className={styles.isLoadingMessage}>
+        <div className={styles.isLoadingMessage} aria-live="polite">
           Loading practice routine...
         </div>
       )}
 
-      {errorMessage && <div>{errorMessage}</div>}
+      {errorMessage && <div aria-live="polite">{errorMessage}</div>}
 
       {!isLoading && activeSnippets.length === 0 && !errorMessage && (
         <div className={styles.emptyFormMessage}>
