@@ -32,7 +32,6 @@ function PracticeForm() {
     setGoal(e.target.value);
   }
 
-  // 1. function for adding an entire practice snippet
   async function addSnippet(newSnippet) {
     const payload = {
       records: [
@@ -100,7 +99,6 @@ function PracticeForm() {
     [practiceType, goal, metronome, timeSpent]
   );
 
-  // 2. useEffect to fetchAllSnippets when App starts
   useEffect(() => {
     async function fetchAllSnippets() {
       setIsLoading(true);
@@ -136,7 +134,6 @@ function PracticeForm() {
     fetchAllSnippets();
   }, []);
 
-  // 3. Update Snippet
   async function updateSnippet(editedSnippet) {
     const originalSnippet = allSnippets.find(
       (snippet) => snippet.id === editedSnippet.id
@@ -204,7 +201,6 @@ function PracticeForm() {
     setEditFields({});
   }
 
-  // 4. Complete a practice snippet
   async function completeSnippet(id) {
     const options = {
       method: 'PATCH',
@@ -341,14 +337,3 @@ function PracticeForm() {
 }
 
 export default PracticeForm;
-
-// TASKS:
-// Add feedback to user behavior ("Please fill all fields to submit");
-
-// Style with flexbox
-// Add accessibility
-
-// Stretch Goals
-// Add sorting for each of the 4 fields
-// Add a way for users to delete a snippet
-// Cache Result of API call so it doesn't call everytime

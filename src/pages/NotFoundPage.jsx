@@ -6,8 +6,8 @@ function NotFoundPage() {
   return (
     <div>
       <h2>404 - Not Found</h2>
-      <h3>*Sad Trombone*</h3>
-      <p className={styles.womp}>womp womp wommmp</p>
+      <h3 className={styles.trombone}>*Sad Trombone*</h3>
+      <p className={styles.womp}>womp womp wommmp :(</p>
       <Link to="/" className={styles.backHome}>
         Back to Home
       </Link>

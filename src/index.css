@@ -11,6 +11,20 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color-scheme: light dark;
+
+  /* Dark Mode Default Colors */
+  --color-background: #242424;
+  --color-text: #ffffffde;
+  --color-gold: #a79242;
+  --color-accent-gold: #72601d;
+  --color-red: #b40d0d;
+  --color-accent-red: #7e0909;
+  --color-success: #09c043;
+  --color-accent-green: #068e31;
+  --color-link: #141414;
+  --color-snippet: #393939;
+  --color-snippet-hover: #464545;
+  --color-button-background: #191919;
 }
 
 body {

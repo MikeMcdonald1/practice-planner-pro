@@ -1,19 +1,19 @@
 .cancelEditButton:enabled:hover {
-  border-color: #b40d0d;
-  /* border-width: 0.15em; */
+  border-color: var(--color-red);
 }
+
 .cancelEditButton:focus,
 .cancelEditButton:focus-visible {
-  outline: 4px auto #b40d0d;
-  box-shadow: 0 0 0 3px #7e0909;
+  outline: 4px auto var(--color-red);
+  box-shadow: 0 0 0 3px var(--color-accent-red);
 }
 
 .saveEditButton:enabled:hover {
-  border-color: #09c043;
-  /* border-width: 0.15em; */
+  border-color: var(--color-success);
 }
+
 .saveEditButton:focus,
 .saveEditButton:focus-visible {
-  outline: 4px auto #09c043;
-  box-shadow: 0 0 0 3px #068e31;
+  outline: 4px auto var(--color-success);
+  box-shadow: 0 0 0 3px var(--color-accent-green);
 }

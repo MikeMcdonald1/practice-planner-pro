@@ -18,8 +18,18 @@
   margin-bottom: 0.75rem;
 }
 
+.submitButton:enabled:hover {
+  border-color: var(--color-success);
+}
+
+.submitButton:focus,
+.submitButton:focus-visible {
+  outline: 4px auto var(--color-success);
+  box-shadow: 0 0 0 3px var(--color-accent-green);
+}
+
 .successMessage {
-  color: #09c043;
+  color: var(--color-success);
   margin-top: 1em;
   font-weight: 500;
 }
