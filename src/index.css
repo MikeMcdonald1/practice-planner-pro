@@ -14,13 +14,13 @@ a {
   font-weight: 500;
   color: #0dff5a;
   text-decoration: inherit;
-  transition:
-    background 0.1s,
-    color 0.1s;
 }
 
 a:hover {
   color: #09c043;
+  transition:
+    background 0.1s,
+    color 0.1s;
 }
 
 body {

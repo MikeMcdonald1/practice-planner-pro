@@ -304,37 +304,36 @@ function PracticeForm() {
             {isSaving ? 'Saving...' : 'Submit'}
           </GeneralButton>
         </form>
-
-        {successMessage && (
-          <div className={styles.successMessage}>{successMessage}</div>
-        )}
-
-        {isLoading && (
-          <div className={styles.isLoadingMessage}>
-            Loading practice routine...
-          </div>
-        )}
-
-        {errorMessage && <div>{errorMessage}</div>}
-
-        {!isLoading && activeSnippets.length === 0 && !errorMessage && (
-          <div className={styles.emptyFormMessage}>
-            Please use the form above to add a practice snippet!
-          </div>
-        )}
-
-        <SnippetList
-          snippets={activeSnippets}
-          editId={editId}
-          editFields={editFields}
-          setEditId={setEditId}
-          setEditFields={setEditFields}
-          onSaveEdit={handleSaveEdit}
-          onCancelEdit={() => setEditId(null)}
-          onComplete={completeSnippet}
-          isSaving={isSaving}
-        />
       </div>
+      {successMessage && (
+        <div className={styles.successMessage}>{successMessage}</div>
+      )}
+
+      {isLoading && (
+        <div className={styles.isLoadingMessage}>
+          Loading practice routine...
+        </div>
+      )}
+
+      {errorMessage && <div>{errorMessage}</div>}
+
+      {!isLoading && activeSnippets.length === 0 && !errorMessage && (
+        <div className={styles.emptyFormMessage}>
+          Please use the form above to add a practice snippet!
+        </div>
+      )}
+
+      <SnippetList
+        snippets={activeSnippets}
+        editId={editId}
+        editFields={editFields}
+        setEditId={setEditId}
+        setEditFields={setEditFields}
+        onSaveEdit={handleSaveEdit}
+        onCancelEdit={() => setEditId(null)}
+        onComplete={completeSnippet}
+        isSaving={isSaving}
+      />
     </>
   );
 }
