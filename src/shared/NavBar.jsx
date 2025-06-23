@@ -6,10 +6,20 @@ function NavBar() {
   return (
     <nav className={styles.navBar}>
       <div className={styles.links}>
-        <NavLink to="/" className={styles.link}>
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive ? `${styles.link} ${styles.active}` : styles.link
+          }
+        >
           Home
         </NavLink>
-        <NavLink to="/practice-form" className={styles.link}>
+        <NavLink
+          to="/practice-form"
+          className={({ isActive }) =>
+            isActive ? `${styles.link} ${styles.active}` : styles.link
+          }
+        >
           Practice Form
         </NavLink>
       </div>
