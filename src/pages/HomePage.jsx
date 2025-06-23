@@ -4,8 +4,10 @@ import styles from './HomePage.module.css';
 function HomePage() {
   return (
     <div>
-      <h1>Practice Planner Pro</h1>
-      <p>Structured Practice. Pro Results.</p>
+      <h1 className={styles.homePageHeading}>Practice Planner Pro</h1>
+      <p className={styles.homePageParagraph}>
+        Structured Practice. Pro Results.
+      </p>
     </div>
   );
 }

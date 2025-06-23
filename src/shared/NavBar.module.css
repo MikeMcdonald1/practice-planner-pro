@@ -2,9 +2,9 @@
   display: grid;
   justify-content: center;
   align-items: center;
-  background-color: #393939;
-  border-bottom: 2px solid #09c043;
-  border-radius: 0.5em;
+  background-color: #a79242;
+  border-bottom: 3px solid #b40d0d;
+  border-radius: 0.75em;
   margin-bottom: 1em;
 }
 
@@ -16,7 +16,10 @@
 }
 
 .link {
+  color: #141414;
+  text-shadow: 1px 1px #72601d;
   font-size: 1.05em;
+  font-weight: 600;
 }
 
 .active {
