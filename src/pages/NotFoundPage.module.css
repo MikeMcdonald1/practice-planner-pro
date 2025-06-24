@@ -1,13 +1,15 @@
 .womp {
-  font-weight: 400;
+  font-weight: 500;
+  font-style: italic;
 }
 
 .trombone {
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .backHome {
   color: var(--color-success);
   text-decoration: underline;
-  font-weight: 500;
+  font-weight: 600;
+  text-shadow: 0.5px 0.5px rgba(0, 0, 0, 0.5);
 }
